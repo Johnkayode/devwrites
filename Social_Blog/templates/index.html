@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+  <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+      <h1 class="display-4 font-weight-normal text-light">Want a larger audience for your articles?</h1>
+      <p class=" lead font-weight-bolder text-light" >DevWrites is a social blog designed for developers across the world to share technical articles</p>
+      <a class="btn btn-outline-secondary" href="{{url_for('register')}}">Get Started</a>
+    </div>
+    <div class='container'>
+      <div class='box'>
+        <div class='mobile item'>
+          <div class='screen'></div>
+          <div class='home'></div>
+        </div>
+        <div class=' display text-light'>Write your own articles</div>
+      </div>
+      <div class='box'>
+        <div class='mobile item'>
+            <div class='screen'></div>
+            <div class='home'></div>
+          </div>
+        <div class=' display text-light'>Read articles from <br> your favourite developers</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+      
+      
+      
