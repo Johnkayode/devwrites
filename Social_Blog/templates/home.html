@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 {% block body %}
-     <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         
         <div class='wrap'>
-            
             <div class='page text-light'>
                 {% for post in posts %}
-                <!--<img class='img round-img mt-4' src='{{url_for("static",filename="images/headlinesapp.png")}}'>-->
+                
                     <div class='mb-2'>
-                        <a href='{{url_for("profile",user={{post.author.username}})}}' class='ml-4'>{{post.author}}</a>
+                        
+                        <a href='/users/{{post.author}}' class='ml-4'>{{post.author}}</a>
                         <small class='text-muted mb-2'>{{ post.date_posted }}</small>
                     </div>
                     

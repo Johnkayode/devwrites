@@ -23,6 +23,12 @@
     justify-content: space-around;
 }
 
+.wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-around;
+}
+
 .section-header{
     font-family: serif;
     font-weight: normal;
@@ -31,16 +37,14 @@
     font-size: 2em;
 }
 
-.box {
-    margin: 20px;
-}
+
 
 
 
 
 .mobile {
-    width: 250px;
-    height: 500px;
+    width: 200px;
+    height: 400px;
     background: #fff;
     border-radius: 30px;
     border: 2px solid rgba(0,0,0,.3);
@@ -58,6 +62,17 @@
     box-shadow: 0 0 8px rgba(0,0,0,.3);
 }
 
+.profile {
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,.1);
+    
+}
+
+
 .form-box {
     position: relative;
     margin-right: 2px;
@@ -67,11 +82,13 @@
     height: 650px;
 }
 
+
+
 .screen {
     position: relative;
     background: black;
-    width: 230px;
-    height: 400px;
+    width: 180px;
+    height: 300px;
     margin: 55px auto;
     overflow: hidden;
 }
@@ -104,7 +121,37 @@
     display: grid;
     grid-template-columns: 60% 25%;
     grid-template-rows: 100%;
+    margin: 15px;
 }
+
+
+
+.img {
+    height: 70px;
+    width: 70px;
+    float: left;
+    border-radius: 50%;
+
+}
+
+.page {
+    padding: 20px;
+    width: 70%;
+    height: 100%;
+    border: 0px solid rgba(0,0,0,.3);
+    box-sizing: border-box;
+
+    
+}
+.sidebar {
+    padding: 5px;
+    width: 30%;
+    height: 100%;
+    
+    box-sizing: border-box;
+    
+}
+
 
 .display {
     font-size: 1.5em;
@@ -120,13 +167,200 @@
 }
 
 .success-alert {
-    background-color: #0a77eb9b;
+    background-color: rgba(255,255,255,.5);
     border: 1px solid rgba(0,0,0,.3);
     border-radius: 5px;
 }
 
 .danger-alert {
-    background-color: rgba(255,0,0,.1);
+    background-color: rgba(255, 0, 0, 0.5);
     border: 1px solid rgba(0,0,0,.3);
     border-radius: 5px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section.topics ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    border-top: 1px solid grey;
+
+}
+
+.section.topics ul li a {
+    display: block;
+    padding: 5px;
+    border-bottom: 1px solid grey;
+    transition: all 0.3s;
+}
+
+.section.topics ul li a:hover {
+    padding-left: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.drop {
+    display: block;
+    padding: 2px;
+    border-bottom: 1px solid grey;
+    transition: all 0.3s;
+}
+
+.drop:last-child {
+    border-bottom: none;
+}
+
+.drop:hover {
+    padding-left: 10px;
+    background-color: grey;
+    transition: all 0.3s;
+}
+
+.menu-bar:hover {
+    background-color: grey;
+    display: block;
+    border-radius: 5px;
+}
+
+.menu-drop {
+    background-color: rgba(0,0,0,.5);
+
+}
+
+.bg-page {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    padding: 30px;
+}
+
+.profile-container {
+    width: 450px;
+    height: 500px;
+    background: #ffffff;
+    box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    
+    display: block;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.upper-container {
+    height: 150px;
+    background: #434343;
+
+}
+
+.image-container {
+    background: #ffffff;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    padding: 5px;
+    transform: translate(100px,100px);
+
+
+}
+.image-container img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    
+}
+.lower-container {
+    height: 350px;
+    background: #ffffff;
+    padding: 20px;
+    padding-top: 70px;
+    text-align: center;
+
+}
+
+.lower-container h5{
+    box-sizing: border-box;
+    line-height: .6;
+    font-weight: lighter;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+}
+
+.lower-container p{
+    margin-bottom: 40px;
+}
+
+.lower-container .button {
+    padding: 12px 20px;
+    background: gray;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all .3s ease-in;
+}
+
+.lower-container .button:hover {
+    background: transparent;
+    color: grey;
+    border: 2px solid grey;
+}
+
+
+
+.left-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    float: left;
+    color: grey;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    overflow: hidden;
+    
+}
+
+.right-container {
+    position: relative;
+    width:150px;
+    height: 100%;
+    float: right;
+    color:#ffffff;
+    text-align: center;
+    background: #434343;
+    
+}
+
+.articles, .followers, .following {
+    width: 150px;
+    background: #434343;
+    ;
+    height: 100px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    padding: 25px;
+    vertical-align: middle;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.articles:hover, .followers:hover, .following:hover {
+    opacity: 0.8;
+    transition: all 0.4s;
+}
+
+.small {
+    font-size: 12px;
+    margin-top: -5px;
+
 }

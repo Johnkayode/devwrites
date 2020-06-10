@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg"></div>
+    <div class='container'>
+        <div class='box'>
+            <div class='profile-container'>
+                <div class='left-container'>
+                    <div class='upper-container'>
+                        <div class='image-container'>
+                            <img src='{{ image_file }}'>
+                        </div>
+                    </div>
+                    <div class='lower-container'>
+                        <div>
+                            <h3>{{ user.username }}</h3>
+                            <h5>{{ user.email }}</h5>
+                        </div>
+                        <div>
+                            <p>{{user.bio}}</p>
+                        </div>
+                        {% if user==current_user %}
+                        <a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+                <div class='right-container'>
+                    <div class='articles'>
+                        {{ article }}
+            
+                        <p class="small"><b>ARTICLES</b></p>
+                    </div>
+                    <div class='followers'>1000
+                        <p class="small"><b>FOLLOWERS</b></p>
+                    </div>
+                    <div class='following'>523
+                        <p class="small"><b>FOLLOWING</b></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+{% endblock %}
