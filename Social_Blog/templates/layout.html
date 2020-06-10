@@ -36,10 +36,10 @@
         <div class="collapse navbar-collapse" id="navbarsExample03">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active menu-bar">
-              <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{url_for('home')}}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active menu-bar">
-              <a class="nav-link"  href="/home">All Articles</a>
+              <a class="nav-link"  href="{{url_for('home')}}">All Articles</a>
             </li>
             <li class="nav-item active menu-bar">
               <a class="nav-link" href="#" >Find Writers</a>
@@ -49,9 +49,9 @@
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle text-light mr-4" type='button' id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{current_user.username}}</button>
               <div class="dropdown-menu menu-drop text-light" aria-labelledby="dropdown03">
-                <a class="dropdown-item drop text-light" href="/users/{{current_user.username}}">My Profile</a>
+                <a class="dropdown-item drop text-light" href="{{url_for('profile',user=current_user.username) }}">My Profile</a>
                 <a class="dropdown-item drop text-light" href="#">Settings</a>
-                <a class="dropdown-item drop text-light" href="/logout">Log Out</a>
+                <a class="dropdown-item drop text-light" href="{{url_for('logout')}}">Log Out</a>
               </div>
             </div>
           </form>

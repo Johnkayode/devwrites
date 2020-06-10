@@ -86,7 +86,7 @@ def save_picture(form_picture):
 
 
 
-@app.route('/users/<string:user>', methods=['GET','POST'])
+@app.route('/<string:user>', methods=['GET','POST'])
 @login_required
 def profile(user):
     
@@ -95,7 +95,7 @@ def profile(user):
     article= len(user.posts)
     return render_template('profile.html',posts=posts,user=user,image_file=image_file, article=article)
 
-@app.route('/users/<string:user>/update',methods=['GET','POST'])
+@app.route('/<string:user>/update',methods=['GET','POST'])
 @login_required
 def update(user):
     if user == current_user.username:
@@ -113,6 +113,7 @@ def update(user):
         elif request.method == 'GET':
             form.username.data = current_user.username
             form.email.data = current_user.email
+            form.bio.data = current_user.bio
         return render_template('update.html',form=form)
     else:
         return redirect(url_for('profile',user=user))

@@ -9,7 +9,7 @@
                 {% for post in posts %}
                 <!--<img class='img round-img mt-4' src='{{url_for("static",filename="images/headlinesapp.png")}}'>-->
                     <div class='mb-2'>
-                        <a href='{{url_for("profile",user={{post.author.username}})}}' class='ml-4'>{{post.author}}</a>
+                        <a href='{{url_for("profile",user= post.author) }}' class='ml-4'>{{post.author}}</a>
                         <small class='text-muted mb-2'>{{ post.date_posted }}</small>
                     </div>
                     
