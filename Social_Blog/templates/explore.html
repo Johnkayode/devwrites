@@ -9,14 +9,14 @@
                 {% for post in posts %}
                 <!--<img class='img round-img mt-4' src='{{url_for("static",filename="images/headlinesapp.png")}}'>-->
                     <div class='mb-2'>
-                        <a href='{{url_for("profile",user= post.author) }}' class='ml-4'>{{post.author}}</a>
-                        <small class='text-muted mb-2'>{{ post.date_posted }}</small>
+                        <a href='{{url_for("profile",user= post.author) }}' class='ml-4'>{{post.author.username}}</a>
+                        <small class='text-muted mb-2'>{{ post.date_posted.strftime('%Y-&m-%d') }}</small>
                     </div>
                     
                     <div class='mb-6 bg-page text-light'>
                         <br>
                         <h2>{{ post.title }}</h2>
-                        <div>{{ post.content|truncate(300)}} <a href='#'>read more</a></div>      
+                        <div>{{ post.content|truncate(300)}} <a href='{{url_for("post",post_id=post.id)}}'>read more</a></div>      
                         </div>
                         <br>
                 {% endfor %}

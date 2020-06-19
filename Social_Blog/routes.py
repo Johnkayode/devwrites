@@ -3,26 +3,10 @@ import secrets
 from PIL import Image
 from flask import render_template,url_for,flash,redirect, request
 from Social_Blog import app,db,bcrypt
-from Social_Blog.forms import RegistrationForm, LoginForm, UpdateProfileForm
+from Social_Blog.forms import RegistrationForm, LoginForm, UpdateProfileForm,PostForm
 from Social_Blog.models import User, Post
 from flask_login import login_user, logout_user, current_user, login_required
 
-posts = [
-    {'author':'nerd_thejohn',
-    'title':'Igbo Culture',
-    'content': 'The Igbo people are one of the largest ethnic groups in Africa,\
-        originated  present-day South-Central South-Eastern Nigeria. There have been different speculations about the origin of the Igbo people.\
-        Before the British colonization, the Igbo people were a politically fragmented group until i slapped the shit ou t idni idnrfik',
-    'date_posted': '7th June, 2020'},
-    { 'author':'Sc_mofeoluwa',
-    'title':'Yoruba Culture',
-    'content': 'The Yoruba people are one of the largest ethnic groups in Africa,\
-        originated  present-day South-Central South-Eastern Nigeria. There have been different speculations about the origin of the Igbo people.\
-        Before the British colonization, the Igbo people were a politically fragmented group until i slapped the shit ou t idni idnrfik',
-    'date_posted': '8th June, 2020'}
-
-
-]
 
 @app.route('/')
 def index():
@@ -31,6 +15,7 @@ def index():
 @app.route('/home')
 @login_required
 def home():
+    posts = Post.query.all()
     return render_template('home.html',posts=posts)
 
 @app.route('/register', methods=['GET','POST'])
@@ -120,4 +105,54 @@ def update(user):
 
 @app.route('/explore')
 def explore():
+    posts = Post.query.all()
     return render_template('explore.html',posts=posts)
+
+@app.route("/new",methods=['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data,author=current_user)
+        db.session.add(post)
+        post.create_slug()
+        db.session.commit()  
+        flash('Your Post Has Been Created','success')
+        return redirect(url_for('home'))
+    return render_template('new_post.html',title='New Post',form=form,legend="New Post")
+
+
+@app.route("/<post_author>/<post_slug>")
+def post(post_author,post_slug):
+    post = Post.query.filter_by(slug=post_slug).first()
+    return render_template('post.html',title=post.title,post=post)
+
+@app.route("/<post_author>/<post_slug>/update",methods=['GET',"POST"])
+@login_required
+def update_post(post_author,post_slug): 
+    post = Post.query.filter_by(slug=post_slug).first()
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!','success')
+        return redirect(url_for('post',post_author=post.author.username,post_slug=post.slug))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('new_post.html',title='Update Post',form=form,legend='Update Post')
+
+
+@app.route("/post/<int:post_id>/delete",methods=["POST"])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!','success')
+    return redirect(url_for('home'))

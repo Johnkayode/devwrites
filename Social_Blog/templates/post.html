@@ -1,0 +1,46 @@
+
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">  
+            <div class='wrap'>
+                <div class='page text-light'>
+                        <div class='mb-2'>
+                            <a href='{{url_for("profile",user=post.author)}}' class='ml-4'>{{post.author.username}}</a>
+                            <small class='text-muted mb-2'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                            {% if post.author==current_user %}
+                                <div>
+                                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_author=post.author.username,post_slug=post.slug) }}">Update</a>
+                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class='mb-6 bg-page text-light'>
+                            <br>
+                            <h2>{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                            <br>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{url_for('delete_post',post_id=post.id)}}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
+{% endblock %}

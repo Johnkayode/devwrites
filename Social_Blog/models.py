@@ -1,3 +1,6 @@
+import random
+from slugify import slugify
+import string
 from Social_Blog import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
@@ -25,7 +28,13 @@ class Post(db.Model):
     title = db.Column(db.String(100),nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text,nullable=False)
+    slug = db.Column(db.String,unique=True,nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def create_slug(self):
+        _ = ''.join(random.choices(string.ascii_lowercase + string.ascii_uppercase +
+        string.digits, k=6))
+        self.slug = '-'.join([slugify(self.title),_])
+        
     def __repr__(self):
         return f"Post('{self.title}','{self.date_posted}')"
