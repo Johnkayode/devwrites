@@ -26,7 +26,7 @@
 .wrap{
     display:flex;
     flex-wrap:wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .section-header{
@@ -131,23 +131,35 @@
     width: 70px;
     float: left;
     border-radius: 50%;
+    
 
 }
 
 .page {
     padding: 20px;
-    width: 70%;
+    width: 100%;
+    max-width: 1000px;
     height: 100%;
     border: 0px solid rgba(0,0,0,.3);
     box-sizing: border-box;
+    background: rgba(0,0,0,.1);
+    margin-bottom: 15px;
 
     
 }
+
+.page-b {
+    padding: 20px;
+    width: 100%;
+    max-width: 850px;
+    height: 100%;
+    border: 0px solid rgba(0,0,0,.3);
+    box-sizing: border-box;
+}
 .sidebar {
     padding: 5px;
-    width: 30%;
+    width: 300px;
     height: 100%;
-    
     box-sizing: border-box;
     
 }
@@ -232,18 +244,21 @@
 }
 
 .bg-page {
-    background-color: rgba(255,255,255,0.1);
+    
     border-radius: 5px;
     padding: 30px;
+    text-align: left;
+
 }
+
+
 
 .profile-container {
     width: 450px;
     height: 500px;
     background: #ffffff;
     box-sizing: border-box;
-    top: 50%;
-    left: 50%;
+    
     
     display: block;
     align-items: center;
@@ -283,6 +298,12 @@
 
 }
 
+.bdg{
+    border: 2px solid grey;
+    padding: 5px;
+    
+}
+
 .lower-container h5{
     box-sizing: border-box;
     line-height: .6;
@@ -306,6 +327,8 @@
     text-decoration: none;
     transition: all .3s ease-in;
 }
+
+
 
 .lower-container .button:hover {
     background: transparent;
@@ -340,9 +363,9 @@
 }
 
 .articles, .followers, .following {
+    margin-top: 25px;
     width: 150px;
     background: #434343;
-    ;
     height: 100px;
     cursor: pointer;
     letter-spacing: 0.03em;
@@ -357,10 +380,93 @@
 .articles:hover, .followers:hover, .following:hover {
     opacity: 0.8;
     transition: all 0.4s;
+    background: rgba(255,255,255,.5);
+}
+
+.wait {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.wait:hover {
+    color: white;
+    opacity: 0.5;
+    transition: all 0.4s;
+    text-decoration: none;
 }
 
 .small {
     font-size: 12px;
     margin-top: -5px;
 
+}
+
+.post-header {
+    background: grey;
+    color: white;
+    padding: 10px;
+    height: 100%;
+}
+
+.author-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+.upper {
+    border-bottom: 1px solid grey;
+    margin: 0px;
+    padding: 10px;
+    
+    
+}
+
+
+
+.post-author {
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: 1.2em;
+    color: white;
+    text-decoration: none;
+    
+}
+
+.post-author:hover {
+    
+    color: rgba(255,255,255,.7);
+    text-decoration: none;
+    
+}
+
+.author-bio {
+    display: block;
+
+
+    
+}
+
+.author-image {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+
+.find-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.option:hover {
+    background-color: rgba(0,0,0,.1);
 }

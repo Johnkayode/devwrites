@@ -1,48 +1,175 @@
 {% extends 'layout.html' %}
 {% block body %}
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg"></div>
-    <div class='container'>
-        <div class='box'>
-            <div class='profile-container'>
-                <div class='left-container'>
-                    <div class='upper-container'>
-                        <div class='image-container'>
-                            <img src='{{ image_file }}'>
-                        </div>
+    
+        
+        <!--<div class='profile-container float-left'>
+            <div class='left-container'>
+                <div class='upper-container'>
+                    <div class='image-container'>
+                        <img src='{{ image_file }}'>
                     </div>
-                    <div class='lower-container'>
-                        <div>
-                            <h3>{{ user.username }}</h3>
-                            <h5>{{ user.email }}</h5>
-                        </div>
-                        <div>
-                            <p>{{user.bio}}</p>
-                        </div>
+                </div>
+                <div class='lower-container'>
+                    <div>
+                        <h3>{{ user.username }}</h3>
+                        <h5>{{ user.email }}</h5>
+                    </div>
+                    <div>
+                        <p>{{user.bio}}</p>
+                    </div>
                         {% if user==current_user %}
                         <a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a>
-                        {% endif %}
-
-                    </div>
-
-                </div>
-                <div class='right-container'>
-                    <div class='articles'>
-                        {{ article }}
-            
-                        <p class="small"><b>ARTICLES</b></p>
-                    </div>
-                    <div class='followers'>1000
-                        <p class="small"><b>FOLLOWERS</b></p>
-                    </div>
-                    <div class='following'>523
-                        <p class="small"><b>FOLLOWING</b></p>
-                    </div>
-                </div>
+                        {% endif %}</div>
 
             </div>
+            <div class='right-container'>
+                <div class='articles'>
+                    {{ article }}
+            
+                    <p class="small"><b>ARTICLES</b></p>
+                </div>
+                <div class='followers'>1000
+                    <p class="small"><b>FOLLOWERS</b></p>
+                </div>
+                <div class='following'>523
+                    <p class="small"><b>FOLLOWING</b></p>
+                </div>
+            </div>
+
+            </div>
+        </div>-->
+    
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        
+            <div class='wrap'>
+                <div class='profile-container text-light'>
+                    <div class='left-container'>
+                        <div class='upper-container'>
+                            <div class='image-container'>
+                                <img src='{{ image_file }}'>
+                            </div>
+                        </div>
+                        <div class='lower-container'>
+                            <div>
+                                <h3>{{ user.username }}</h3>
+                                <h5>{{ user.email }}</h5>
+                            </div>
+                            <div>
+                                <p>{{user.bio}}</p>
+                            </div>
+                            
+                            <div>
+                                {% if user==current_user %}
+                                <a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a>
+                                                                   
+                                    
+                                {% else %}
+                                    {% if not current_user.is_following(user) %}
+                                        <a href='{{url_for("follow",username=user.username)}}' class='button'>Follow</a>
+                                    {% else %}
+                                        <a href='{{url_for("unfollow",username=user.username)}}' class='button'>Unfollow</a>
+                                    {% endif %}
+                                {% endif %}
+                                {% if current_user.is_authenticated and user!=current_user and user.is_following(current_user) %}
+                                <span class='badge ml-2 bdg'>Follows you</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class='right-container'>
+                        <div class='articles'>
+                            {{ article }}
+                    
+                            <p class="small"><b><a class='wait' href='#articles'>ARTICLES</a></b></p>
+                        </div>
+                        <div class='followers'>{{user.followers.count()}}
+                            <p class="small"><b><a class='wait' href='{{url_for("followers",user=user.username)}}'>FOLLOWERS</a></b></p>
+                        </div>
+                        <div class='following'>{{user.followed.count()}}
+                            <p class="small"><b><a class='wait' href='{{url_for("followed",user=user.username)}}'>FOLLOWING</a></b></p>
+                        </div>
+                        <div class='following'>{{ contributions }}
+                            <p class="small"><b><a class='wait' href='#articles'>CONTRIBUTIONS</a></b></p>
+                        </div>
+                        
+                    </div>
+                    {% if user==current_user %}
+                                
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" style='margin-left:83px; border-radius: 30px;padding: 10px 15px;background: gray;'>
+                            Delete Account
+                        </button>    
+                    {% endif %}
+                </div>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Delete Account</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>All articles and personal data will be lost, are you sure you want to delete your account?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <form action='{{url_for("delete_account",user=user.username)}}' method="POST">
+                              <input type='submit' class='btn btn-danger' value='Delete'>
+                          </form>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                  
+                
+                <div class='page-b page text-light'>
+                    <h3 class='mb-4' id='articles' style='color:grey'>Articles by {{user.username}}</h3>
+                    {% if posts.items|length== 0 %}
+                    <i class='text-muted'>No articles by this user yet</i>
+                    {% else %}
+                        {% for post in posts.items %}
+                        
+                            <!--<div class='mb-2 post-header'>
+                                <img class='author-image float-left' src="{{url_for('static',filename='images/default.jpg')}}">
+                                <a href='{{url_for("profile",user=post.author)}}' class='ml-4'>{{post.author}}</a>
+                                <small class=' mb-2'>{{ post.date_posted }}</small>
+                            </div>-->
+                            
+                            <div class='mb-6 bg-page text-light' style='border-bottom: 1px solid grey;'>
+                                <br>
+                                <h2>{{ post.title }}</h2>
+                                <small class='mb-2 text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small><small class='ml-4 text-muted'>{{post.comments.count()}} Comments</small>
+                                <div class='mt-2'>{{ post.content|safe|truncate(300)}} <br> <a href='{{url_for("post",post_author=post.author.username,post_slug=post.slug)}}' class='btn btn-outline-secondary mt-2'>Read more</a></div>      
+                            </div>
+                                <br>
+                        {% endfor %}
+                    {% endif %}
+                    <ul class='pagination mt-4'>
+                        <li>
+                            {% if posts.has_prev %}
+                                <a class='btn btn-outline-secondary' href=' {{ url_for("home",page=posts.page-1)}} '>Prev</a>
+                            {% else %}
+                                <a class='btn btn-outline-secondary disabled' href=' {{ url_for("home",page=posts.page-1)}} '>Prev</a>
+                            {% endif %}
+                        </li>
+                        <li >
+                            {% if posts.has_next %}
+                                <a class='btn btn-outline-secondary ml-4' href=' {{ url_for("home",page=posts.page+1)}} '>Next</a>
+                            {% else %}
+                                <a class='btn btn-outline-secondary disabled ml-4' href=' {{ url_for("home",page=posts.page+1)}} '>Next</a>
+                            {% endif %}
+                         </li>
+                    </ul>
+                    
+                </div>
+                <br>
+                
+            </div>
         </div>
-    </div>
-</div>
     
     
 {% endblock %}

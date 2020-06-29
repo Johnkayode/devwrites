@@ -3,36 +3,104 @@
 {% block body %}
     <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">  
-            <div class='wrap'>
-                <div class='page text-light'>
-                        <div class='mb-2'>
-                            <a href='{{url_for("profile",user=post.author)}}' class='ml-4'>{{post.author.username}}</a>
-                            <small class='text-muted mb-2'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            <div class=' wrap my-5'>
+                <div class='page text-light mt-4'>
+                    <div class='upper '>
+                        <header class='subject mt-2'>
+                            <img class='img mr-2' src="{{url_for('static',filename='images/'+ post.author.image_file)}}">
+                        
+                                <div class='text-left'><a href='{{url_for("profile",user=post.author.username)}}' class='post-author' >{{post.author.username}}</a>
+                                
+                                <p class='text-muted author-bio '>{{post.author.bio}}</p>
+                                
+                            </div>
+                            
+                        </header>
+                    </div>
+                    
+                        <div class='mt-2'>
+                            
+                            
                             {% if post.author==current_user %}
                                 <div>
                                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_author=post.author.username,post_slug=post.slug) }}">Update</a>
-                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#exampleModalCenter">Delete</a>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class='mb-6 bg-page text-light'>
+                        
+                        <div class='mb-4 bg-page text-light'>
                             <br>
                             <h2>{{ post.title }}</h2>
-                            <p>{{ post.content }}</p>
+                            <small class='text-muted mb-2'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                            <small class='ml-4 text-muted'>{{ post.comments.count() }} Comments</small>
+                            <p class='mt-4'>{{ post.content|safe }}</p>
                             <br>
                         </div>
+                </div>
+                <div class='sidebar text-light'>
+                    <h3>Comments</h3>
+                    {% if comments|length ==0 %}
+                    <div class='container'>
+                    <i class='text-muted'>No comments yet, be the first to comment</i>
+                    </div>
+                    {% else %}
+                    <div>
+                        {% for comment in comments %}
+                        <div><img class='img mr-2 mt-2' src="{{url_for('static',filename='images/'+ comment.author.image_file)}}"></div>
+                        <div class='text-left' style=' border-radius: 5px; padding:10px;'>
+                            <div><a href='{{url_for("profile",user=comment.author.username)}}' class='post-author' >{{comment.author.username}}</a>
+                            {% if current_user==comment.author or current_user==post.author%}
+                                <a class='btn btn-danger ml-2' href='{{url_for("delete_comment",id=comment.id,post_id=post.id)}}' 
+                                style='padding: 0px 2px;'>Delete</a>
+                            {% endif %}
+                            </div>
+                            <p style='margin-left: 66px;'  >
+                                {{comment.body}}
+                            </p>
+                        </div>
+                        
+
+                        
+                        {% endfor %}
+                    {% endif %}
+                        
+                        
+                        <form method="POST" action="">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group mt-4">
+                                <div class="form-group">
+                        
+                                    {% if form.body.errors %}
+                                    {{ form.body(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid feedback">
+                                            {% for error in form.body.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.body(class="form-control form-control-lg") }}
+                                    {% endif %}
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-outline-secondary") }}
+                            </div>
+                        </form>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete Article?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                </button>
+              </button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

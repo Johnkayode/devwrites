@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="position-relative overflow-hidden p-3 p-sm-5 m-md-1 text-center">
-    <div class="container col-sm-5">
+<div class="container my-5">
+    <div class="form pt-4" style='height:100%; margin-top:50px; width: 100%; max-width: 800px; '>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb4">{{ legend }}</legend>
+                <legend class="border-bottom mb-4 text-light">{{ legend }}</legend>
                 <div class="form-group">
-                    {{ form.title.label(class="form-control-label") }}
+                    {{ form.title.label(class="form-control-label text-light") }}
                     {% if form.title.errors %}
                     {{ form.title(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid feedback">
@@ -20,23 +20,25 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.content.label(class="form-control-label") }}
+                    {{ form.content.label(class="form-control-label text-light") }}
                     {% if form.content.errors %}
-                    {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    {{ form.content(class="form-control  is-invalid" ) }}
                         <div class="invalid feedback">
                             {% for error in form.password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content(class="form-control form-control-lg") }}
+                        {{ form.content(class="form-control ") }}
                     {% endif %}
                 </div>
             </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+            <div class="form-group ">
+                {{ form.submit(class="btn btn-outline-secondary") }}
             </div>
         </form>
     </div>
 </div>
+{{ ckeditor.load() }}
+{{ ckeditor.config(name='content') }}
 {% endblock %}
