@@ -1,13 +1,14 @@
 import random
 from slugify import slugify
 import string
-from Social_Blog import db, login_manager
+from . import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
-def load_user(user_id):
-     return User.query.get(int(user_id))
+def load_user(user_id:int):
+     return User.query.get(user_id)
 
 
 class Follow(db.Model):

@@ -4,17 +4,28 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_ckeditor import CKEditor
+from config import Config
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '3641e1db63475bcf63623dcba3876120'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-migrate = Migrate(app,db)
-ckeditor = CKEditor(app)
-login_manager = LoginManager(app)
+
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+migrate = Migrate()
+ckeditor = CKEditor()
+login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'danger-alert'
 
-from Social_Blog import routes,models
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    bcrypt.init_app(app)
+    ckeditor.init_app(app)
+    login_manager.init_app(app)
+    migrate.init_app(app, db)
+
+    with app.app_context():
+        from . import routes,models
+        return app

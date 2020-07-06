@@ -2,11 +2,15 @@ import os
 import secrets
 from PIL import Image
 from sqlalchemy import func
-from flask import render_template,url_for,flash,redirect, request, abort, make_response
-from Social_Blog import app,db,bcrypt
-from Social_Blog.forms import RegistrationForm, LoginForm, UpdateProfileForm, PostForm, CommentForm
-from Social_Blog.models import User, Post, Follow, Comment
+from flask import render_template,url_for,flash,redirect, request, abort, make_response, send_from_directory
+from . import db,bcrypt
+from .forms import RegistrationForm, LoginForm, UpdateProfileForm, PostForm, CommentForm
+from .models import User, Post, Follow, Comment
 from flask_login import login_user, logout_user, current_user, login_required
+from flask_ckeditor import upload_success, upload_fail
+
+# i separated it so you'll understand what happened
+from flask import current_app as app
 
 
 
@@ -185,6 +189,31 @@ def new_post():
         return redirect(url_for('home'))
     return render_template('new_post.html',title='New Article',form=form,legend="New Article")
 
+@app.route('/files/<path:filename>')
+def uploaded_files(filename):
+    path = app.config['CKEDITOR_IMAGE_PATH']
+    return send_from_directory(path, filename)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    random_hex = secrets.token_hex(8)
+    output_size = (300, 300)
+
+    # Gets the file uploaded
+    f = request.files.get('upload')
+    _, f_ext = os.path.splitext(f.filename)
+    print(_, f_ext)
+
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.config['CKEDITOR_IMAGE_PATH'], picture_fn)
+    image = Image.open(f)
+    image.thumbnail(output_size)
+    image.save(picture_path)
+    url = url_for('uploaded_files', filename=picture_fn)
+    return upload_success(url=url) 
+
+# WHERE THE MAGIC HAPPENS
+# NOTE: I deleted the local ckeditor and used the one from the cdn.
 
 @app.route("/<post_author>/<post_slug>",methods=['GET','POST'])
 @login_required

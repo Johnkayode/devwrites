@@ -1,3 +1,4 @@
-/migrations
-/.flaskenv
+/__pycache__
+/.env
 /env
+/migrations

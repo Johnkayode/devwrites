@@ -11,7 +11,7 @@
                     {% if form.title.errors %}
                     {{ form.title(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid feedback">
-                            {% for error in form.email.errors %}
+                            {% for error in form.title.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -24,7 +24,7 @@
                     {% if form.content.errors %}
                     {{ form.content(class="form-control  is-invalid" ) }}
                         <div class="invalid feedback">
-                            {% for error in form.password.errors %}
+                            {% for error in form.content.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
