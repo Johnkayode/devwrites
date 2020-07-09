@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_ckeditor import CKEditorField
 from .models import User
-from flask_login import current_user
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),Length(min=2,max=20)])
@@ -53,3 +53,19 @@ class PostForm(FlaskForm):
 class CommentForm(FlaskForm):
     body = StringField('',validators=[DataRequired()])
     submit = SubmitField('Comment')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+    
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('No account with this email!')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

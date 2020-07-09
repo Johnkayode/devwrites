@@ -6,12 +6,17 @@ basedir = path.dirname(path.abspath(__file__))
 load_dotenv(path.join(basedir, '.env'), verbose=True)
 
 class Config:
-    FLASK_DEBUG = environ.get('FLASK_DEBUG') or True
-    FLASK_APP = environ.get('FLASK_APP') or 'run.py'
-    FLASK_ENV = environ.get("FLASK_ENV") or 'development'
-    SECRET_KEY = environ.get("SECRET_KEY") or 'a weird key'
-    SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHMEY_DATABASE_URI') or 'sqlite:///site.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = environ.get('SQLALCHMEY_TRACK_MODIFICATIONS') or False
+    FLASK_DEBUG = environ.get('FLASK_DEBUG')
+    FLASK_APP = environ.get('FLASK_APP')
+    FLASK_ENV = environ.get("FLASK_ENV")
+    SECRET_KEY = environ.get("SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAIL_SERVER = environ.get('MAIL_SERVER')
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
     CKEDITOR_HEIGHT = environ.get('CKEDITOR_HEIGHT') or 500
     CKEDITOR_FILE_UPLOADER = 'upload'
     CKEDITOR_IMAGE_PATH = path.join(basedir, 'images')
