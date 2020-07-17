@@ -8,16 +8,16 @@ from .forms import RegistrationForm, LoginForm, UpdateProfileForm, PostForm, Com
 from .models import User, Post, Follow, Comment
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_ckeditor import upload_success, upload_fail
+from flask import current_app as app
 from flask_mail import Message
 
-# i separated it so you'll understand what happened
-from flask import current_app as app
 
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/home')
 @login_required
@@ -45,12 +45,14 @@ def home():
     
     return render_template('home.html',posts=posts,users=users,top_articles=top_articles,active=active)
 
+
 @app.route('/home/all')
 @login_required
 def show_all():
     resp = make_response(redirect(url_for('home')))
     resp.set_cookie('show_followed','',max_age=30*24*60*60)
     return resp
+
 
 @app.route('/home/followed')
 @login_required
@@ -59,10 +61,9 @@ def show_followed():
     resp.set_cookie('show_followed','1',max_age=30*24*60*60)
     return resp
 
+
 @app.route('/register', methods=['GET','POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -74,6 +75,7 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     return render_template('register.html', form=form)
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -90,6 +92,7 @@ def login():
         else:
             flash('Wrong email or password', 'danger-alert')
     return render_template('login.html', form=form)
+
 
 @app.route('/logout', methods=['GET','POST'])
 @login_required
@@ -114,12 +117,9 @@ def save_picture(form_picture):
     return picture_fn
 
 
-
 @app.route('/<string:user>', methods=['GET','POST'])
 @login_required
 def profile(user):
-    
-    
     user = User.query.filter_by(username=user).first()
     if user is None:
         return redirect(url_for('home'))
@@ -130,6 +130,7 @@ def profile(user):
     posts=Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     
     return render_template('profile.html',posts=posts,user=user,image_file=image_file, article=article, contributions=contributions)
+
 
 @app.route('/<string:user>/update',methods=['GET','POST'])
 @login_required
@@ -154,6 +155,7 @@ def update(user):
     else:
         return redirect(url_for('profile',user=user))
 
+
 @app.route('/<string:user>/delete',methods=['GET','POST'])
 @login_required
 def delete_account(user):
@@ -166,6 +168,7 @@ def delete_account(user):
     else:
         abort(403)
 
+
 @app.route('/explore')
 def explore():
     posts = Post.query.order_by(Post.date_posted.desc()).all()
@@ -177,6 +180,7 @@ def explore():
     if len(users)>=5:
         users = users[0:5]
     return render_template('explore.html',posts=posts,users=users,top_articles=top_articles)
+
 
 @app.route("/new",methods=['GET','POST'])
 @login_required
@@ -191,10 +195,12 @@ def new_post():
         return redirect(url_for('home'))
     return render_template('new_post.html',title='New Article',form=form,legend="New Article")
 
+
 @app.route('/files/<path:filename>')
 def uploaded_files(filename):
     path = app.config['CKEDITOR_IMAGE_PATH']
     return send_from_directory(path, filename)
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -214,8 +220,6 @@ def upload():
     url = url_for('uploaded_files', filename=picture_fn)
     return upload_success(url=url) 
 
-# WHERE THE MAGIC HAPPENS
-# NOTE: I deleted the local ckeditor and used the one from the cdn.
 
 @app.route("/<post_author>/<post_slug>",methods=['GET','POST'])
 @login_required
@@ -230,6 +234,7 @@ def post(post_author,post_slug):
     comments = post.comments.order_by(Comment.date_posted.asc()).all()
     return render_template('post.html',title=post.title,post=post, comments = comments, form=form)
 
+
 @app.route('/<post_id>/comment/<id>/delete',methods=['GET','POST'])
 @login_required
 def delete_comment(id,post_id):
@@ -243,6 +248,7 @@ def delete_comment(id,post_id):
         return redirect(url_for('post',post_author=post.author.username,post_slug=post.slug))
     else:
         abort(403)
+
 
 @app.route("/<post_author>/<post_slug>/update",methods=['GET',"POST"])
 @login_required
@@ -288,6 +294,7 @@ def follow(username):
     flash('You are now following this user','success-alert')
     return redirect(url_for('profile',user=username))
 
+
 @app.route('/<username>/unfollow')
 @login_required
 def unfollow(username):
@@ -317,6 +324,7 @@ def find_writers():
     users = User.query.all()
     
     return render_template('writers.html',users=users,writer=writer)
+
 
 @app.route('/<user>/followers')
 @login_required
