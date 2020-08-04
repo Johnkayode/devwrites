@@ -1,2 +1,3 @@
-# Flask-blog
-A Flask project
+# DevWrites
+
+A blog for writing articles, built with Python/Flask
