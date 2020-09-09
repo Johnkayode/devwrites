@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 {% block body %}
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">  
-            <div class=' wrap my-5'>
+    <div class='home overflow-hidden'>
+        <div class='row'>
+            <div class="col-lg-9">
                 <div class='page text-light mt-4'>
                     <div class='upper '>
                         <header class='subject mt-2'>
@@ -37,6 +37,8 @@
                             <br>
                         </div>
                 </div>
+            </div>
+            <div class='col-lg-3 mt-8'>
                 <div class='sidebar text-light'>
                     <h3>Comments</h3>
                     {% if comments|length ==0 %}

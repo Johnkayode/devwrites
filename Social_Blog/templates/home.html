@@ -1,16 +1,16 @@
 {% extends 'layout.html' %}
 {% block body %}
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        
-        <div class='wrap my-5'>
-            
-            <div class='page text-light'>
+    <!--<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">-->
+<div class='home overflow-hidden'>
+    <div class=''>
+        <div class='row'>
+            <div class='page text-light col-lg-9'>
                 {% if active=='followed' %}
-                <div class='btn-group mb-4'>
-                    <a href='{{url_for("show_all")}}' class='btn btn-outline-secondary  '>All Articles</a>
-                    <a href='{{url_for("show_followed")}}'class='btn btn-outline-secondary active  '>Followed Articles</a>
-                </div>
+                    <div class='btn-group mb-4'>
+                        <a href='{{url_for("show_all")}}' class='btn btn-outline-secondary  '>All Articles</a>
+                        <a href='{{url_for("show_followed")}}'class='btn btn-outline-secondary active  '>Followed Articles</a>
+                    </div>
                 {% else %}
                     <div class='btn-group mb-4' >
                         <a href='{{url_for("show_all")}}' class='btn btn-outline-secondary active '>All Articles</a>
@@ -18,36 +18,31 @@
                     </div>
                 {% endif %}
                 {% if posts.items|length == 0 %}
-                <div class='container'>
-                    <i class='text-muted'>No articles yet</i>
-                </div>
+                    <div class='container'>
+                        <i class='text-muted'>No articles yet</i>
+                    </div>
                 {% else %}
-                {% for post in posts.items %}
-
-            
-                    <div class='upper'>
-                        <header class='subject'>
-                            <img class='img mr-2' src="{{url_for('static',filename='images/'+ post.author.image_file)}}">
-                        
-                                <div class='text-left'><a href='{{url_for("profile",user=post.author.username)}}' class='post-author' >{{post.author.username}}</a>
-                                
-                                <p class='text-muted author-bio '>{{post.author.bio}}</p></div>
-                            
-                        </header>
-                    </div>
-                    
-                    <div class='mb-6 bg-page text-light'>
-                        
-                        <h2>{{ post.title }}</h2>
-                        <small class='mb-2 text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small><small class='ml-4 text-muted'>{{post.comments.count()}} Comments</small>
-                        <div class='mt-2'>{{ post.content|safe|truncate(300)}} <br>
-                             <a href='{{url_for("post",post_author=post.author.username,post_slug=post.slug)}}' class='btn btn-outline-secondary mt-2'>Read more</a>
-                        </div>      
-                    </div>
-                        <br>
-                {% endfor %}
+                    {% for post in posts.items %}
+                        <div class='upper'>
+                            <header class='subject'>
+                                <img class='img mr-2' src="{{url_for('static',filename='images/'+ post.author.image_file)}}">
+                                <div class='text-left'>
+                                    <a href='{{url_for("profile",user=post.author.username)}}' class='post-author' >{{post.author.username}}</a>
+                                    <p class='text-muted author-bio '>{{post.author.bio}}</p></div>
+                                    
+                            </header>
+                        </div>
+                        <div class='mb-6 bg-page text-light'>
+                            <h2>{{ post.title }}</h2>
+                            <small class='mb-2 text-muted'>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                            <small class='ml-4 text-muted'>{{post.comments.count()}} Comments</small>
+                            <div class='mt-2'>{{ post.content|safe|truncate(300)}} <br>
+                                <a href='{{url_for("post",post_author=post.author.username,post_slug=post.slug)}}' class='btn btn-outline-secondary mt-2'>Read more</a>
+                            </div>      
+                            </div>
+                            <br>
+                    {% endfor %}
                 {% endif %}
-
                 <ul class='pagination mt-4'>
                     <li>
                         {% if posts.has_prev %}
@@ -66,24 +61,25 @@
                 </ul>
             </div>
             <br>
-            <div class='sidebar text-light' >
+            <div class='sidebar text-light col-lg-3' >
                 <div class='section topics'>
                     <h3 class='section-title'>Latest Articles</h3>
-                        <ul>
-                            {% for article in top_articles %}
-                                <li><a href='{{url_for("post",post_author=article.author.username,post_slug=article.slug)}}'>{{ article.title}}</a></li>
-                            {% endfor %}
-                        </ul>
+                    <ul>
+                        {% for article in top_articles %}
+                            <li><a href='{{url_for("post",post_author=article.author.username,post_slug=article.slug)}}'>{{ article.title}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div class='section topics'>
                     <h3 class='section-title'>Top Writers</h3>
-                        <ul>
-                            {% for user in users %}
-                                <li><a href='{{url_for("profile",user=user.username)}}'>{{user.username}}</a></li>
-                            {% endfor %}
-                        </ul>
+                    <ul>
+                        {% for user in users %}
+                            <li><a href='{{url_for("profile",user=user.username)}}'>{{user.username}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

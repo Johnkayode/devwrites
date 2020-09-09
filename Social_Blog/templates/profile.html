@@ -1,106 +1,59 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg"></div>
-    
+
+
+        <div class="home ">
         
-        <!--<div class='profile-container float-left'>
-            <div class='left-container'>
-                <div class='upper-container'>
-                    <div class='image-container'>
+            <div class='row justify-content-center '>
+                <div class='profile text-light col-lg-3'>
+                    <div class='image-container mb-4'>
                         <img src='{{ image_file }}'>
                     </div>
-                </div>
-                <div class='lower-container'>
-                    <div>
-                        <h3>{{ user.username }}</h3>
-                        <h5>{{ user.email }}</h5>
-                    </div>
-                    <div>
-                        <p>{{user.bio}}</p>
-                    </div>
-                        {% if user==current_user %}
-                        <a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a>
-                        {% endif %}</div>
-
-            </div>
-            <div class='right-container'>
-                <div class='articles'>
-                    {{ article }}
-            
-                    <p class="small"><b>ARTICLES</b></p>
-                </div>
-                <div class='followers'>1000
-                    <p class="small"><b>FOLLOWERS</b></p>
-                </div>
-                <div class='following'>523
-                    <p class="small"><b>FOLLOWING</b></p>
-                </div>
-            </div>
-
-            </div>
-        </div>-->
-    
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        
-            <div class='wrap'>
-                <div class='profile-container text-light'>
-                    <div class='left-container'>
-                        <div class='upper-container'>
-                            <div class='image-container'>
-                                <img src='{{ image_file }}'>
-                            </div>
+                    <div class='mb-4'>
+                        <div >
+                            <h3>{{ user.username }}</h3>
+                            <p class='wrap-text'>{{ user.email }}</p>
+                            <p class='wrap-text'><i>{{user.bio}}</i></p>
                         </div>
-                        <div class='lower-container'>
-                            <div>
-                                <h3>{{ user.username }}</h3>
-                                <h5>{{ user.email }}</h5>
-                            </div>
-                            <div>
-                                <p>{{user.bio}}</p>
-                            </div>
-                            
-                            <div>
-                                {% if user==current_user %}
-                                <a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a>
-                                                                   
-                                    
+                    </div>
+                    <div class='mb-4' style='display:flex;'>
+                        <span class='pad'>{{user.followers.count()}} 
+                            <p class="small"><a class='p-link' href='{{url_for("followers",user=user.username)}}'>Followers</a></p>
+                        </span>
+                        <span class='pad'>
+                            {{user.followed.count()}}<p class="small"><a class='p-link' href='{{url_for("followed",user=user.username)}}'>Following</a></p>
+                        </span>
+                        <span class='pad'>
+                            {{ article }}<p class="small"><a class='p-link' href='#articles'>Articles</a></p>
+                        </span>
+                        <span class='pad'>
+                            {{ contributions }}<p class="small"><a class='p-link' href='#articles'>Contributions</a></p>
+                        </span>
+                    </div>
+                        
+                        
+                    
+                    <div >
+                        <div>
+                            {% if user==current_user %}
+                            <div class='mb-4'><a href='{{url_for("update",user=user.username)}}' class='button'>Update Profile</a></div>
+                            <button type="button" class="button" data-toggle="modal" data-target="#exampleModalCenter">
+                                Delete Account
+                            </button>                                 
+                            {% else %}
+                                {% if not current_user.is_following(user) %}
+                                    <a href='{{url_for("follow",username=user.username)}}' class='button '>Follow</a>
                                 {% else %}
-                                    {% if not current_user.is_following(user) %}
-                                        <a href='{{url_for("follow",username=user.username)}}' class='button'>Follow</a>
-                                    {% else %}
-                                        <a href='{{url_for("unfollow",username=user.username)}}' class='button'>Unfollow</a>
-                                    {% endif %}
+                                    <a href='{{url_for("unfollow",username=user.username)}}' class='button '>Unfollow</a>
                                 {% endif %}
+                            {% endif %}
                                 {% if current_user.is_authenticated and user!=current_user and user.is_following(current_user) %}
                                 <span class='badge ml-2 bdg'>Follows you</span>
                                 {% endif %}
-                            </div>
                         </div>
-                        
                     </div>
-                    <div class='right-container'>
-                        <div class='articles'>
-                            {{ article }}
                     
-                            <p class="small"><b><a class='wait' href='#articles'>ARTICLES</a></b></p>
-                        </div>
-                        <div class='followers'>{{user.followers.count()}}
-                            <p class="small"><b><a class='wait' href='{{url_for("followers",user=user.username)}}'>FOLLOWERS</a></b></p>
-                        </div>
-                        <div class='following'>{{user.followed.count()}}
-                            <p class="small"><b><a class='wait' href='{{url_for("followed",user=user.username)}}'>FOLLOWING</a></b></p>
-                        </div>
-                        <div class='following'>{{ contributions }}
-                            <p class="small"><b><a class='wait' href='#articles'>CONTRIBUTIONS</a></b></p>
-                        </div>
-                        
-                    </div>
-                    {% if user==current_user %}
-                                
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" style='margin-left:83px; border-radius: 30px;padding: 10px 15px;background: gray;'>
-                            Delete Account
-                        </button>    
-                    {% endif %}
+                    
                 </div>
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -126,8 +79,8 @@
                 </div>
                   
                 
-                <div class='page-b page text-light'>
-                    <h3 class='mb-4' id='articles' style='color:grey'>Articles by {{user.username}}</h3>
+                <div class='page text-light col-lg-9'>
+                    <h3 class='mb-4 text-center' id='articles' style='color:grey'>Articles</h3>
                     {% if posts.items|length== 0 %}
                     <i class='text-muted'>No articles by this user yet</i>
                     {% else %}

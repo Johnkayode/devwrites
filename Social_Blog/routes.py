@@ -122,7 +122,7 @@ def save_picture(form_picture):
 def profile(user):
     user = User.query.filter_by(username=user).first()
     if user is None:
-        return redirect(url_for('home'))
+        abort(404)
     article= len(user.posts) 
     contributions = len(user.posts) + user.comments.count()
     image_file = url_for('static',filename='images/'+ user.image_file)
@@ -153,7 +153,7 @@ def update(user):
             form.bio.data = current_user.bio
         return render_template('update.html',form=form)
     else:
-        return redirect(url_for('profile',user=user))
+        abort(403)
 
 
 @app.route('/<string:user>/delete',methods=['GET','POST'])
@@ -310,20 +310,7 @@ def unfollow(username):
     return redirect(url_for('profile',user=username))
 
 
-@app.route('/writers')
-@login_required
-def find_writers():
-    username = request.args.get('writer')
-    if username:
-        username = username.replace('+',' ')
-    writer = User.query.filter_by(username=username).first()
-    if not username:
-        writer = 'no username'
-    else:
-        writer = writer
-    users = User.query.all()
-    
-    return render_template('writers.html',users=users,writer=writer)
+
 
 
 @app.route('/<user>/followers')
@@ -363,7 +350,7 @@ def project():
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Password Reset Request',sender='noreply@demo.com',
+    msg = Message('Password Reset Request',sender='noreply@devswrite.com',
                     recipients=[user.email])
     msg.body = f'''To reset your password, visit:
     {url_for('reset_token',token=token, _external=True)}

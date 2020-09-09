@@ -6,9 +6,8 @@
     <table class='table table-striped table-dark table-striped mb-4 bg'>
         <thead>
             <tr>
-                <th scope="col">Username</th>
-                <th scope='col'>Articles</th>
-                <th scope='col'>Contributions</th>
+                <th scope="col">Profile</th>
+                
                 
             </tr>
         </thead>
@@ -16,8 +15,7 @@
             {% for user in users %}
                 <tr>
                     <th scope='row'><img class='float-left find-image mr-2' src='{{ url_for("static",filename="images/"+ user.image_file)}}'><a class='link' href='{{url_for("profile",user=user.username)}}'>{{user.username}}</a></th>
-                    <td>{{ user.posts|length }}</td>
-                    <td>{{ user.posts|length + user.comments.count() }}</td>
+                    
                     
                 </tr>
             {% endfor %}
