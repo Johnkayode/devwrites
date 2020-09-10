@@ -13,8 +13,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_SERVER = environ.get('MAIL_SERVER')
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
     MAIL_USERNAME = environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
     CKEDITOR_HEIGHT = environ.get('CKEDITOR_HEIGHT') or 500
