@@ -1,0 +1,53 @@
+(function () {
+    var HOST = "http://localhost:5000/upload_attachment"
+
+    addEventListener("trix-attachment-add", function (event) {
+        if (event.attachment.file) {
+            event.attachment.file
+            uploadFileAttachment(event.attachment)
+        }
+    })
+
+    function uploadFileAttachment(attachment) {
+        uploadFile(attachment.file, setProgress, setAttributes)
+
+        function setProgress(progress) {
+            attachment.setUploadProgress(progress)
+        }
+
+        function setAttributes(attributes) {
+            attachment.setAttributes(attributes)
+        }
+    }
+
+    function uploadFile(file, progressCallback, successCallback) {
+        var formData = createFormData(file)
+        var xhr = new XMLHttpRequest()
+
+        xhr.open("POST", HOST, true)
+
+        xhr.upload.addEventListener("progress", function (event) {
+            var progress = event.loaded / event.total * 100
+            progressCallback(progress)
+        })
+
+        xhr.addEventListener("load", function (event) {
+            if (xhr.status === 200) {
+                var attributes = {
+                    url: JSON.parse(xhr.responseText).url,
+                    href: JSON.parse(xhr.responseText).url + "?content-disposition=attachment"
+                }
+                successCallback(attributes)
+            }
+        })
+
+        xhr.send(formData)
+    }
+
+    function createFormData(file) {
+        var data = new FormData()
+        data.append("Content-Type", file.type)
+        data.append("file", file)
+        return data
+    }
+})();

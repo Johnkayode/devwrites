@@ -3,3 +3,5 @@
 /migrations
 /.env
 /.vscode
+/.idea
+/Social_Blog/__pycache__/

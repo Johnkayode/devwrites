@@ -18,6 +18,10 @@
     outline:none;
 }
 
+.trix-editor{
+    background-color: white;
+}
+
 .content-section {
     margin: 0em;
 }
