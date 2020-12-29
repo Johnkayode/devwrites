@@ -1,7 +1,0 @@
-{
-    "git.ignoreLimitWarning": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": true,
-    "python.pythonPath": "/home/mofeoluwa/Documents/devwrites/env/bin/python3"
-}

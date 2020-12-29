@@ -1,8 +1,6 @@
-/__pycache__
-/env
+Pipfile
+Pipfile.lock
 /migrations
-/.env
-/.vscode/settings.json
-/.vscode
-/.idea
-/Social_Blog/__pycache__/
+.env
+.idea
+__pycache__

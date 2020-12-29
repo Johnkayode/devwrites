@@ -1,5 +1,5 @@
 (function () {
-    var HOST = "http://localhost:5000/upload_attachment"
+    var HOST = "http://localhost:5000/upload"
 
     addEventListener("trix-attachment-add", function (event) {
         if (event.attachment.file) {

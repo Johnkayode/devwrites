@@ -14,7 +14,7 @@ from sqlalchemy import func
 from . import bcrypt, db, mail
 from .forms import (CommentForm, LoginForm, PostForm, RegistrationForm,
                     RequestResetForm, ResetPasswordForm, UpdateProfileForm)
-from .models import Comment, Follow, Post, User
+from .models import Comment, Post, User
 
 
 @app.route("/")
@@ -220,14 +220,15 @@ def new_post():
         db.session.add(post)
         post.create_slug()
         db.session.commit()
-        flash("You've sucessfully published your article", "success-alert")
+        flash("You've successfully published your article", "success-alert")
         return redirect(url_for("home"))
     return render_template(
         "new_post.html", title="New Article", form=form, legend="New Article"
     )
 
 
-@app.route("/upload_attachment", methods=["GET", "POST"])
+@app.route("/upload", methods=["GET", "POST"])
+@cross_origin()
 def upload_attachment():
     file = request.files["file"]
     _ = save_picture(file, output_size=(1000, 1000))
