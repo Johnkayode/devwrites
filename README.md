@@ -2,4 +2,4 @@
 
 A blog for writing articles, built with Python/Flask
 
-Visit website [Link](https://t.me/animehive_bot) 🚀
+Visit website [Link](https://www.devwrites.xyz) 🚀
